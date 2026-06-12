@@ -10,13 +10,38 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.phonething.R
+import org.json.JSONArray
+import org.json.JSONObject
 
 data class TaskItem(
     val id: Long,
     val text: String,
     val isDone: Boolean,
     val dueDate: String? = null
-)
+) {
+    fun toJson(): JSONObject = JSONObject().apply {
+        put("id", id)
+        put("text", text)
+        put("isDone", isDone)
+        put("dueDate", dueDate ?: JSONObject.NULL)
+    }
+
+    companion object {
+        fun fromJson(obj: JSONObject): TaskItem =
+            TaskItem(
+                id = obj.getLong("id"),
+                text = obj.getString("text"),
+                isDone = obj.getBoolean("isDone"),
+                dueDate = obj.optString("dueDate", null)?.ifEmpty { null }
+            )
+    }
+}
+
+fun List<TaskItem>.toJsonArray(): JSONArray =
+    JSONArray().apply { forEach { put(it.toJson()) } }
+
+fun JSONArray.toTaskItemList(): List<TaskItem> =
+    (0 until length()).map { TaskItem.fromJson(getJSONObject(it)) }
 
 class TodoAdapter(
     items: MutableList<TaskItem>,

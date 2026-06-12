@@ -79,7 +79,7 @@ class TodoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        seedSampleTasks()
+        loadTasks()
         setupLists()
         setupAddButton()
     }
@@ -89,19 +89,37 @@ class TodoFragment : Fragment() {
         _binding = null
     }
 
-    private fun seedSampleTasks() {
-        // seed 8 doing + 3 done to test the "and X more" indicator
-        tasks.add(TaskItem(nextId++, "Paint the living room", false, "12 Feb"))
-        tasks.add(TaskItem(nextId++, "Fix the kitchen faucet", false, "15 Feb"))
-        tasks.add(TaskItem(nextId++, "Organize the garage", false, "20 Feb"))
-        tasks.add(TaskItem(nextId++, "Replace air filters", false, "10 Mar"))
-        tasks.add(TaskItem(nextId++, "Clean the gutters", false, null))
-        tasks.add(TaskItem(nextId++, "Mow the lawn", false, "5 Apr"))
-        tasks.add(TaskItem(nextId++, "Trim the hedges", false, null))
-        tasks.add(TaskItem(nextId++, "Wash the windows", false, null))
-        tasks.add(TaskItem(nextId++, "Download the app", true, null))
-        tasks.add(TaskItem(nextId++, "Install the stand", true, null))
-        tasks.add(TaskItem(nextId++, "Mount the phone", true, null))
+    /** Load tasks from persistent storage, seeding defaults on first launch. */
+    private fun loadTasks() {
+        val ctx = requireContext()
+        tasks.clear()
+        if (!StorageUtil.hasSeeded(ctx)) {
+            val sample = listOf(
+                TaskItem(1, "Paint the living room", false, "12 Feb"),
+                TaskItem(2, "Fix the kitchen faucet", false, "15 Feb"),
+                TaskItem(3, "Organize the garage", false, "20 Feb"),
+                TaskItem(4, "Replace air filters", false, "10 Mar"),
+                TaskItem(5, "Clean the gutters", false, null),
+                TaskItem(6, "Mow the lawn", false, "5 Apr"),
+                TaskItem(7, "Trim the hedges", false, null),
+                TaskItem(8, "Wash the windows", false, null),
+                TaskItem(9, "Download the app", true, null),
+                TaskItem(10, "Install the stand", true, null),
+                TaskItem(11, "Mount the phone", true, null),
+            )
+            tasks.addAll(sample)
+            nextId = 12L
+            StorageUtil.saveTasks(ctx, tasks)
+            StorageUtil.markSeeded(ctx)
+        } else {
+            val loaded = StorageUtil.loadTasks(ctx)
+            tasks.addAll(loaded)
+            nextId = (loaded.maxOfOrNull { it.id } ?: 0) + 1
+        }
+    }
+
+    private fun saveTasks() {
+        StorageUtil.saveTasks(requireContext(), tasks)
     }
 
     private fun setupLists() {
@@ -237,6 +255,7 @@ class TodoFragment : Fragment() {
         // Always move toggled task to the end so both directions go bottom
         tasks.removeAt(index)
         tasks.add(toggled)
+        saveTasks()
 
         doingAdapter.replaceAll(getDoingItems())
         doneAdapter.replaceAll(getDoneItems())
@@ -269,6 +288,7 @@ class TodoFragment : Fragment() {
 
     private fun deleteTask(task: TaskItem) {
         tasks.removeAll { it.id == task.id }
+        saveTasks()
         doingAdapter.replaceAll(getDoingItems())
         doneAdapter.replaceAll(getDoneItems())
         binding.doingList.post { updateMoreCount(binding.doingList, doingAdapter, binding.doingMoreText) }
@@ -280,6 +300,7 @@ class TodoFragment : Fragment() {
         if (index == -1) return
         val dueDate = if (newDueDate.isEmpty()) null else newDueDate
         tasks[index] = tasks[index].copy(text = newText, dueDate = dueDate)
+        saveTasks()
 
         doingAdapter.replaceAll(getDoingItems())
         doneAdapter.replaceAll(getDoneItems())
@@ -309,6 +330,7 @@ class TodoFragment : Fragment() {
     private fun addTask(text: String, dueDate: String) {
         val date = if (dueDate.isEmpty()) null else dueDate
         tasks.add(TaskItem(nextId++, text, false, date))
+        saveTasks()
         doingAdapter.replaceAll(getDoingItems())
         binding.doingList.post { updateMoreCount(binding.doingList, doingAdapter, binding.doingMoreText) }
     }

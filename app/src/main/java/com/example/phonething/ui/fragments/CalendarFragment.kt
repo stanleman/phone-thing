@@ -30,16 +30,7 @@ class CalendarFragment : Fragment() {
     private var currentDialogDay: Int? = null
     private var currentDialog: AlertDialog? = null
 
-    private val events = mutableListOf(
-        CalendarEvent(1, "Meeting with Investors", 3),
-        CalendarEvent(2, "Design Review", 5),
-        CalendarEvent(3, "Catchup with Dev Team", 8),
-        CalendarEvent(4, "Coffee with Sarah", 12),
-        CalendarEvent(5, "Gym Session", 15),
-        CalendarEvent(6, "Doctor Appointment", 18),
-        CalendarEvent(7, "Book Club Meeting", 22),
-        CalendarEvent(8, "Team Standup", 24),
-    )
+    private val events = mutableListOf<CalendarEvent>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentCalendarBinding.inflate(inflater, container, false)
@@ -48,6 +39,7 @@ class CalendarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loadEvents()
         val cal = Calendar.getInstance()
         displayYear = cal.get(Calendar.YEAR)
         displayMonth = cal.get(Calendar.MONTH)
@@ -57,6 +49,34 @@ class CalendarFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    /** Load events from persistent storage, seeding defaults on first launch. */
+    private fun loadEvents() {
+        val ctx = requireContext()
+        events.clear()
+        if (!StorageUtil.hasSeeded(ctx)) {
+            events.addAll(
+                listOf(
+                    CalendarEvent(1, "Meeting with Investors", 3),
+                    CalendarEvent(2, "Design Review", 5),
+                    CalendarEvent(3, "Catchup with Dev Team", 8),
+                    CalendarEvent(4, "Coffee with Sarah", 12),
+                    CalendarEvent(5, "Gym Session", 15),
+                    CalendarEvent(6, "Doctor Appointment", 18),
+                    CalendarEvent(7, "Book Club Meeting", 22),
+                    CalendarEvent(8, "Team Standup", 24),
+                )
+            )
+            StorageUtil.saveEvents(ctx, events)
+            StorageUtil.markSeeded(ctx)
+        } else {
+            events.addAll(StorageUtil.loadEvents(ctx))
+        }
+    }
+
+    private fun saveEvents() {
+        StorageUtil.saveEvents(requireContext(), events)
     }
 
     private fun buildCalendar() {
@@ -301,6 +321,7 @@ class CalendarFragment : Fragment() {
                     isFocusable = true
                     setOnClickListener {
                         events.remove(event)
+                        saveEvents()
                         rebuildCalendar()
                         showDayEventsDialog(dayNum)
                     }
@@ -358,6 +379,7 @@ class CalendarFragment : Fragment() {
                     val idx = events.indexOf(event)
                     if (idx >= 0) {
                         events[idx] = updatedEvent
+                        saveEvents()
                     }
                     rebuildCalendar()
                     currentDialogDay?.let { showDayEventsDialog(it) }
@@ -385,6 +407,7 @@ class CalendarFragment : Fragment() {
                 if (title.isNotEmpty()) {
                     val maxId = (events.maxOfOrNull { it.id } ?: 0) + 1
                     events.add(CalendarEvent(maxId, title, dayNum))
+                    saveEvents()
                     rebuildCalendar()
                     showDayEventsDialog(dayNum)
                 }
