@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.InputType
+import android.text.method.ScrollingMovementMethod
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,7 @@ class CalendarFragment : Fragment() {
     private val dayLabels = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
     private var displayYear = 0
     private var displayMonth = 0
+    private var todayDay = -1
     private var currentDialogDay: Int? = null
     private var currentDialog: AlertDialog? = null
 
@@ -44,6 +46,7 @@ class CalendarFragment : Fragment() {
         val cal = Calendar.getInstance()
         displayYear = cal.get(Calendar.YEAR)
         displayMonth = cal.get(Calendar.MONTH)
+        todayDay = cal.get(Calendar.DAY_OF_MONTH)
         buildCalendar()
     }
 
@@ -171,7 +174,8 @@ class CalendarFragment : Fragment() {
         cell.setPadding((6 * density).toInt(), (6 * density).toInt(), (6 * density).toInt(), (6 * density).toInt())
         if (dayNum == -1) return cell
 
-        cell.setBackgroundResource(R.drawable.calendar_cell_bg)
+        val isToday = dayNum == todayDay
+        cell.setBackgroundResource(if (isToday) R.drawable.calendar_cell_selected_bg else R.drawable.calendar_cell_bg)
 
         val dayText = TextView(requireContext()).apply {
             text = dayNum.toString()
@@ -181,7 +185,10 @@ class CalendarFragment : Fragment() {
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             ).apply { gravity = Gravity.TOP or Gravity.END }
-            setTextColor(ResourcesCompat.getColor(resources, R.color.text_primary, null))
+            setTextColor(
+                if (isToday) ResourcesCompat.getColor(resources, R.color.accent, null)
+                else ResourcesCompat.getColor(resources, R.color.text_primary, null)
+            )
         }
         cell.addView(dayText)
 
@@ -289,8 +296,8 @@ class CalendarFragment : Fragment() {
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         1f
                     ).apply { leftMargin = (8 * density).toInt() }
-                    maxLines = 1
-                    ellipsize = android.text.TextUtils.TruncateAt.END
+                    setHorizontallyScrolling(true)
+                    movementMethod = ScrollingMovementMethod()
                 }
 
                 val editBtn = TextView(requireContext()).apply {
