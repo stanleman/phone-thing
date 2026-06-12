@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p app/src/main/java/com/example/phonething/ui/fragments)",
+      "Bash(mkdir -p app/src/main/res/values)",
+      "Bash(mkdir -p app/src/main/res/layout)",
+      "Bash(mkdir -p app/src/main/res/drawable)",
+      "Bash(mkdir -p app/src/main/res/font)",
+      "Bash(adb devices *)",
+      "Bash(gradle wrapper *)",
+      "Bash(./gradlew --version)",
+      "Bash(gradle --version)",
+      "Bash(java *)",
+      "Bash(adb install *)",
+      "Bash(adb shell *)",
+      "Bash(./gradlew assembleDebug)",
+      "Bash(./gradlew app:compileDebugKotlin)",
+      "Bash(./gradlew clean *)",
+      "Bash(gradlew assembleDebug)",
+      "Bash(adb logcat *)",
+      "Bash(./gradlew app:compileDebugKotlin app:assembleDebug)",
+      "Bash(./gradlew app:assembleDebug --rerun-tasks)",
+      "Bash(./gradlew app:assembleDebug)",
+      "Bash(adb pull *)",
+      "Bash(adb exec-out *)",
+      "Bash(python *)"
+    ]
+  }
+}

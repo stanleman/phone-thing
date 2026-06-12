@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark mode colors -->
+    <color name="background">#1A1A1A</color>
+    <color name="surface">#222222</color>
+    <color name="text_primary">#F0F0F0</color>
+    <color name="text_secondary">#888888</color>
+    <color name="accent">#757575</color>
+    <color name="today_accent">#757575</color>
+    <color name="page_indicator_active">#F0F0F0</color>
+    <color name="page_indicator_inactive">#444444</color>
+</resources>

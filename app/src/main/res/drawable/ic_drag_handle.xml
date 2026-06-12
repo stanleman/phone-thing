@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Row 1, Col 1 -->
+    <item android:left="0dp" android:top="0dp">
+        <shape android:shape="oval">
+            <solid android:color="#666666"/>
+            <size android:width="4dp" android:height="4dp"/>
+        </shape>
+    </item>
+    <!-- Row 1, Col 2 -->
+    <item android:left="8dp" android:top="0dp">
+        <shape android:shape="oval">
+            <solid android:color="#666666"/>
+            <size android:width="4dp" android:height="4dp"/>
+        </shape>
+    </item>
+    <!-- Row 1, Col 3 -->
+    <item android:left="16dp" android:top="0dp">
+        <shape android:shape="oval">
+            <solid android:color="#666666"/>
+            <size android:width="4dp" android:height="4dp"/>
+        </shape>
+    </item>
+    <!-- Row 2, Col 1 -->
+    <item android:left="0dp" android:top="8dp">
+        <shape android:shape="oval">
+            <solid android:color="#666666"/>
+            <size android:width="4dp" android:height="4dp"/>
+        </shape>
+    </item>
+    <!-- Row 2, Col 2 -->
+    <item android:left="8dp" android:top="8dp">
+        <shape android:shape="oval">
+            <solid android:color="#666666"/>
+            <size android:width="4dp" android:height="4dp"/>
+        </shape>
+    </item>
+    <!-- Row 2, Col 3 -->
+    <item android:left="16dp" android:top="8dp">
+        <shape android:shape="oval">
+            <solid android:color="#666666"/>
+            <size android:width="4dp" android:height="4dp"/>
+        </shape>
+    </item>
+</layer-list>

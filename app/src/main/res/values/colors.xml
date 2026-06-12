@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light mode colors -->
+    <color name="background">#F5F5F5</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_secondary">#666666</color>
+    <color name="accent">#757575</color>
+    <color name="today_accent">#757575</color>
+    <color name="page_indicator_active">#1A1A1A</color>
+    <color name="page_indicator_inactive">#CCCCCC</color>
+</resources>

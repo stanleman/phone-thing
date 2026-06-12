@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="48dp"
+    android:background="@color/background">
+
+    <!-- Central horizontal stack: Hours + colon + Minutes-stack + Date-stack -->
+    <LinearLayout
+        android:id="@+id/clockCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Column 1: Hours -->
+        <TextView
+            android:id="@+id/clockHours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00"
+            android:textColor="@color/text_primary"
+            android:textSize="120sp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false" />
+
+        <!-- Colon separator -->
+        <TextView
+            android:id="@+id/clockColon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textColor="@color/text_primary"
+            android:textSize="120sp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center_vertical"
+            android:includeFontPadding="false"
+            android:layout_marginHorizontal="2dp" />
+
+        <!-- Column 2: Minutes vertical stack (flip aesthetic) -->
+        <LinearLayout
+            android:id="@+id/minutesStack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginStart="4dp">
+
+            <!-- Previous minute -->
+            <TextView
+                android:id="@+id/clockPrevMinute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="41"
+                android:textColor="@color/text_secondary"
+                android:textSize="48sp"
+                android:fontFamily="sans-serif-medium"
+                android:alpha="0.35"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:layout_marginBottom="-12dp" />
+
+            <!-- Current minute -->
+            <TextView
+                android:id="@+id/clockMinutes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="42"
+                android:textColor="@color/text_primary"
+                android:textSize="120sp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:includeFontPadding="false" />
+
+            <!-- Next minute -->
+            <TextView
+                android:id="@+id/clockNextMinute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="43"
+                android:textColor="@color/text_secondary"
+                android:textSize="48sp"
+                android:fontFamily="sans-serif-medium"
+                android:alpha="0.35"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:layout_marginTop="-12dp" />
+
+            <!-- New incoming minute (hidden, slides into nextMinute spot) -->
+            <TextView
+                android:id="@+id/clockNewMinute"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="44"
+                android:textColor="@color/text_primary"
+                android:textSize="48sp"
+                android:fontFamily="sans-serif-medium"
+                android:alpha="0"
+                android:visibility="gone"
+                android:gravity="center"
+                android:includeFontPadding="false" />
+
+        </LinearLayout>
+
+        <!-- Column 3: Date vertical stack -->
+        <LinearLayout
+            android:id="@+id/dateStack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="start"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp">
+
+            <!-- Day of week -->
+            <TextView
+                android:id="@+id/clockDayOfWeek"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TUESDAY"
+                android:textColor="@color/text_secondary"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.15"
+                android:gravity="start" />
+
+            <!-- Month + day -->
+            <TextView
+                android:id="@+id/clockDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="JUN — 9"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="0.12"
+                android:gravity="start" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

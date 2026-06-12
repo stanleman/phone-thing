@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:paddingHorizontal="36dp"
+    android:paddingVertical="28dp">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/midGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <!-- Doing column header -->
+    <TextView
+        android:id="@+id/doingHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="DOING"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/midGuideline"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="12dp" />
+
+    <!-- Done column header -->
+    <TextView
+        android:id="@+id/doneHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="DONE"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.15"
+        app:layout_constraintStart_toEndOf="@id/midGuideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="12dp" />
+
+    <!-- Doing column container -->
+    <FrameLayout
+        android:id="@+id/doingContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/midGuideline"
+        app:layout_constraintTop_toBottomOf="@id/doingHeader"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/doingList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="true"
+            android:nestedScrollingEnabled="true" />
+
+        <!-- Doing more tasks indicator -->
+        <TextView
+            android:id="@+id/doingMoreText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="6dp"
+            android:paddingHorizontal="8dp"
+            android:textSize="12sp"
+            android:textColor="@color/accent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:background="@color/background"
+            android:layout_gravity="bottom" />
+
+    </FrameLayout>
+
+    <!-- Done column container -->
+    <FrameLayout
+        android:id="@+id/doneContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toEndOf="@id/midGuideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/doneHeader"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/doneList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="true"
+            android:nestedScrollingEnabled="true" />
+
+        <!-- Done more tasks indicator -->
+        <TextView
+            android:id="@+id/doneMoreText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="6dp"
+            android:paddingHorizontal="8dp"
+            android:textSize="12sp"
+            android:textColor="@color/accent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:background="@color/background"
+            android:layout_gravity="bottom" />
+
+    </FrameLayout>
+
+    <!-- Add button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        android:contentDescription="Add task"
+        android:tint="@color/background"
+        app:backgroundTint="@color/accent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="4dp"
+        app:fabSize="normal" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
