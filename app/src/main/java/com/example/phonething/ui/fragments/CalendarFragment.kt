@@ -1,6 +1,7 @@
 package com.example.phonething.ui.fragments
 
 import android.app.AlertDialog
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.InputType
@@ -293,30 +294,36 @@ class CalendarFragment : Fragment() {
                 }
 
                 val editBtn = TextView(requireContext()).apply {
-                    text = "Edit"
+                    text = "EDIT"
                     textSize = 12f
+                    typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+                    letterSpacing = 0.1f
                     setTextColor(ResourcesCompat.getColor(resources, R.color.accent, null))
                     layoutParams = LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                     ).apply { leftMargin = (8 * density).toInt() }
                     gravity = Gravity.CENTER
-                    setPadding((8 * density).toInt(), (4 * density).toInt(), (8 * density).toInt(), (4 * density).toInt())
+                    setPadding((12 * density).toInt(), (4 * density).toInt(), (12 * density).toInt(), (4 * density).toInt())
+                    setBackgroundResource(R.drawable.action_btn_bg)
                     isClickable = true
                     isFocusable = true
                     setOnClickListener { showEditEventDialog(event) }
                 }
 
                 val deleteBtn = TextView(requireContext()).apply {
-                    text = "Del"
+                    text = "DELETE"
                     textSize = 12f
-                    setTextColor(ResourcesCompat.getColor(resources, R.color.text_secondary, null))
+                    typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
+                    letterSpacing = 0.1f
+                    setTextColor(Color.parseColor("#E57373"))
                     layoutParams = LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ).apply { leftMargin = (4 * density).toInt() }
+                    ).apply { leftMargin = (8 * density).toInt() }
                     gravity = Gravity.CENTER
-                    setPadding((8 * density).toInt(), (4 * density).toInt(), (8 * density).toInt(), (4 * density).toInt())
+                    setPadding((12 * density).toInt(), (4 * density).toInt(), (12 * density).toInt(), (4 * density).toInt())
+                    setBackgroundResource(R.drawable.action_btn_bg)
                     isClickable = true
                     isFocusable = true
                     setOnClickListener {
