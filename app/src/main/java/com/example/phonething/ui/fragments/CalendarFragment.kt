@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
-import android.widget.GridLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
@@ -76,10 +75,11 @@ class CalendarFragment : Fragment() {
                 setTextColor(ResourcesCompat.getColor(resources, R.color.text_secondary, null))
                 typeface = Typeface.DEFAULT_BOLD
                 gravity = Gravity.CENTER
-                layoutParams = GridLayout.LayoutParams().apply {
-                    width = 0
-                    height = ViewGroup.LayoutParams.WRAP_CONTENT
-                    columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+                layoutParams = LinearLayout.LayoutParams(
+                    0,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    1f
+                ).apply {
                     bottomMargin = (4 * density).toInt()
                 }
             }
@@ -103,11 +103,16 @@ class CalendarFragment : Fragment() {
             dayEvents[e.startDay] = (dayEvents[e.startDay] ?: emptyList()) + e
         }
 
+        // Calculate the actual number of weeks this month occupies
+        val totalCells = startCol + daysInMonth
+        val weeksNeeded = (totalCells + 6) / 7
+
         var cellIdx = 0
 
-        for (row in 0 until 6) {
+        for (row in 0 until weeksNeeded) {
             val rowLayout = LinearLayout(requireContext()).apply {
                 orientation = LinearLayout.HORIZONTAL
+                isBaselineAligned = false
                 layoutParams = LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     0,
@@ -132,20 +137,7 @@ class CalendarFragment : Fragment() {
             container.addView(rowLayout)
         }
 
-        // Exact height distribution to eliminate any leftover pixels
-        container.post {
-            val avail = container.height
-            if (avail > 0) {
-                val base = avail / 6
-                val rem = avail % 6
-                for (i in 0 until 6) {
-                    container.getChildAt(i).layoutParams = LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        base + if (i < rem) 1 else 0
-                    )
-                }
-            }
-        }
+        // Rows fill the container via weighted layout (0dp height + weight=1f each)
     }
 
     private fun getDayNumber(row: Int, col: Int, startCol: Int, daysInMonth: Int): Int {

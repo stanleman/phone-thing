@@ -3,9 +3,11 @@ package com.example.phonething.ui.fragments
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.phonething.databinding.FragmentWikipediaBinding
 import org.json.JSONObject
@@ -127,6 +129,8 @@ class WikipediaFragment : Fragment() {
                     binding.wikiTitle.text = title
                     binding.wikiExtract.text = html
                     binding.wikiLoading.visibility = View.GONE
+                    // Fit text size after layout is complete
+                    binding.wikiExtract.post { fitTextSize(binding.wikiExtract) }
                 }
             } catch (e: Exception) {
                 mainHandler.post {
@@ -138,5 +142,37 @@ class WikipediaFragment : Fragment() {
             }
         }
         fetchThread?.start()
+    }
+
+    private fun fitTextSize(textView: TextView, minSp: Float = 8f, maxSp: Float = 40f) {
+        val availableWidth = textView.width - textView.paddingLeft - textView.paddingRight
+        val availableHeight = textView.height - textView.paddingTop - textView.paddingBottom
+
+        if (availableWidth <= 0 || availableHeight <= 0) return
+        if (textView.text.isNullOrEmpty()) return
+
+        var low = minSp
+        var high = maxSp
+        var bestSize = minSp
+
+        while (high - low > 0.25f) {
+            val mid = (low + high) / 2f
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mid)
+
+            textView.measure(
+                View.MeasureSpec.makeMeasureSpec(availableWidth, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            )
+
+            if (textView.measuredHeight <= availableHeight) {
+                bestSize = mid
+                low = mid
+            } else {
+                high = mid
+            }
+        }
+
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, bestSize)
+        textView.requestLayout()
     }
 }

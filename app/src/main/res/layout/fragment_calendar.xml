@@ -7,14 +7,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp">
 
         <!-- Day-of-week headers -->
-        <GridLayout
+        <LinearLayout
             android:id="@+id/weekdayGrid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="7" />
+            android:orientation="horizontal" />
 
         <!-- Calendar date grid (rows built programmatically) -->
         <LinearLayout
