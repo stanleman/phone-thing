@@ -32,7 +32,7 @@ data class TaskItem(
                 id = obj.getLong("id"),
                 text = obj.getString("text"),
                 isDone = obj.getBoolean("isDone"),
-                dueDate = obj.optString("dueDate", null)?.ifEmpty { null }
+                dueDate = obj.opt("dueDate")?.takeUnless { it === JSONObject.NULL } as? String
             )
     }
 }
